@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suri — Central do Time de CS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2B1620;
+    --ink-soft:#5C4550;
+    --bg:#FAF4F1;
+    --surface:#FFFFFF;
+    --brand:#7A2E43;
+    --brand-dark:#54172A;
+    --brand-soft:#F1DFE3;
+    --accent:#E8A33D;
+    --accent-soft:#FBEAD1;
+    --muted:#C98FA0;
+    --line:#EAD9D3;
+    --radius-s:10px;
+    --radius-m:16px;
+    --radius-l:22px;
+    --shadow: 0 1px 2px rgba(43,22,32,.04), 0 8px 24px -12px rgba(43,22,32,.18);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Sora', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  p{line-height:1.6; color:var(--ink-soft); margin:0;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  ::selection{background:var(--brand); color:#fff;}
+
+  /* ---------- layout ---------- */
+  .app{
+    display:grid;
+    grid-template-columns:264px 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    background:var(--brand-dark);
+    color:#F6E9EC;
+    padding:28px 20px 24px;
+    display:flex;
+    flex-direction:column;
+    position:sticky;
+    top:0;
+    height:100vh;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:4px 6px 28px;
+    border-bottom:1px solid rgba(246,233,236,.14);
+    margin-bottom:22px;
+  }
+  .brand-mark{
+    width:38px; height:38px;
+    border-radius:11px;
+    background:linear-gradient(155deg, var(--accent), #C97B37);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:18px;
+    color:var(--brand-dark);
+    flex:none;
+  }
+  .brand-text .name{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    color:#fff;
+    line-height:1.15;
+  }
+  .brand-text .sub{
+    font-size:11.5px;
+    color:#E3B9C2;
+    letter-spacing:.02em;
+  }
+
+  nav.tabs{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .tab-btn{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    background:transparent;
+    border:none;
+    color:#EBD3D8;
+    padding:11px 12px;
+    border-radius:var(--radius-s);
+    font-size:14.5px;
+    font-weight:500;
+    text-align:left;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab-btn svg{flex:none; opacity:.85;}
+  .tab-btn:hover{background:rgba(246,233,236,.08); color:#fff;}
+  .tab-btn.active{
+    background:#fff;
+    color:var(--brand-dark);
+  }
+  .tab-btn.active svg{opacity:1;}
+
+  .sidebar-foot{
+    margin-top:auto;
+    padding-top:18px;
+    border-top:1px solid rgba(246,233,236,.14);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .avatar{
+    width:32px; height:32px; border-radius:50%;
+    background:var(--muted);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12.5px; font-weight:600; color:#fff;
+    flex:none;
+  }
+  .sidebar-foot .who{font-size:12.5px; color:#F1DFE3; line-height:1.3;}
+  .sidebar-foot .who span{display:block; color:#C89AA3; font-size:11px;}
+
+  /* ---------- main ---------- */
+  .main{min-width:0;}
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:26px 40px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg);
+    position:sticky;
+    top:0;
+    z-index:5;
+  }
+  .topbar .eyebrow{
+    font-size:12.5px;
+    color:var(--brand);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .topbar h1{font-size:26px;}
+  .topbar .desc{font-size:13.5px; margin-top:5px; max-width:520px;}
+  .search{
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:9px 16px;
+    min-width:230px;
+    flex:none;
+  }
+  .search input{
+    border:none; outline:none; background:transparent;
+    font-family:'Sora'; font-size:13.5px; color:var(--ink); width:100%;
+  }
+  .search svg{flex:none; color:var(--ink-soft);}
+
+  .panel{display:none; padding:30px 40px 64px;}
+  .panel.active{display:block; animation:rise .35s ease both;}
+  @keyframes rise{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  .section-lead{max-width:620px; margin-bottom:24px;}
+  .section-lead p{margin-top:8px; font-size:14.5px;}
+
+  /* ---------- subcategory nav ---------- */
+  .subnav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+    margin-bottom:26px;
+  }
+  .sub-btn{
+    background:var(--surface);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-size:13px;
+    font-weight:500;
+    padding:8px 15px;
+    border-radius:999px;
+    transition:all .15s ease;
+  }
+  .sub-btn:hover{border-color:var(--muted); color:var(--ink);}
+  .sub-btn.active{
+    background:var(--brand);
+    border-color:var(--brand);
+    color:#fff;
+  }
+  .sub-btn.add-new{
+    background:transparent;
+    border:1px dashed var(--muted);
+    color:var(--brand);
+    display:flex; align-items:center; gap:5px;
+  }
+  .sub-panel{display:none;}
+  .sub-panel.active{display:block; animation:rise .3s ease both;}
+
+  /* ---------- nested subcategory nav (2nd level, e.g. Provedores / Gateway) ---------- */
+  .subnav-nested{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .nested-panel{display:none;}
+  .nested-panel.active{display:block; animation:rise .3s ease both;}
+
+  .empty-sub{
+    border:1px dashed var(--line);
+    border-radius:var(--radius-m);
+    padding:38px 24px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:13.5px;
+    background:var(--surface);
+  }
+  .empty-sub strong{display:block; font-family:'Fraunces'; font-size:16px; color:var(--ink); margin-bottom:6px; font-weight:600;}
+
+  /* ---------- cards / grid ---------- */
+  .grid{display:grid; gap:18px;}
+  .grid.cols-3{grid-template-columns:repeat(3, 1fr);}
+  .grid.cols-2{grid-template-columns:repeat(2, 1fr);}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    padding:22px;
+    box-shadow:var(--shadow);
+  }
+  .card h3{font-size:17px; font-weight:600; margin-bottom:8px;}
+  .card p{font-size:13.5px;}
+
+  .tag{
+    display:inline-flex; align-items:center;
+    font-size:11px; font-weight:600;
+    padding:4px 10px; border-radius:999px;
+    margin-bottom:12px;
+    letter-spacing:.01em;
+  }
+  .tag.on{background:var(--accent-soft); color:#8A5A16;}
+  .tag.planned{background:var(--brand-soft); color:var(--brand-dark);}
+  .tag.done{background:#E4EFE2; color:#3C6B3F;}
+
+  .meta-row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:16px; padding-top:14px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--ink-soft);
+  }
+
+  /* progress */
+  .progress-track{
+    height:6px; border-radius:99px; background:var(--brand-soft); overflow:hidden; margin-top:14px;
+  }
+  .progress-fill{height:100%; background:var(--brand); border-radius:99px;}
+
+  /* events */
+  .event-row{
+    display:flex; gap:18px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .event-row:first-child{padding-top:0;}
+  .event-date{
+    flex:none; width:64px; text-align:center;
+    background:var(--brand-soft); border-radius:var(--radius-s);
+    padding:9px 4px;
+  }
+  .event-date .d{font-family:'Fraunces'; font-size:20px; font-weight:700; color:var(--brand-dark); line-height:1;}
+  .event-date .m{font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--brand); margin-top:2px;}
+  .event-info h3{font-size:15.5px; font-weight:600;}
+  .event-info p{font-size:13px; margin-top:4px;}
+  .event-info .chips{display:flex; gap:8px; margin-top:9px;}
+  .chip{font-size:11px; color:var(--ink-soft); background:var(--bg); border:1px solid var(--line); padding:3px 9px; border-radius:999px;}
+
+  /* updates */
+  .update-item{
+    display:flex; gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .update-dot{flex:none; width:9px; height:9px; border-radius:50%; background:var(--accent); margin-top:7px;}
+  .update-item .date{font-size:11.5px; color:var(--ink-soft); margin-bottom:3px;}
+  .update-item h3{font-size:15px; font-weight:600;}
+  .update-item p{font-size:13.5px; margin-top:4px;}
+
+  /* faq */
+  .faq-item{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-s);
+    margin-bottom:8px; overflow:hidden;
+  }
+  .faq-q{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; background:none; border:none; text-align:left;
+    padding:15px 18px; font-size:14px; font-weight:500; color:var(--ink);
+  }
+  .faq-q svg{transition:transform .2s ease; flex:none; color:var(--brand);}
+  .faq-item.open .faq-q svg{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease;}
+  .faq-a-inner{padding:0 18px 16px; font-size:13.5px; color:var(--ink-soft);}
+
+  /* suri shop */
+  .shop-hero{
+    background:linear-gradient(120deg, var(--brand) 0%, var(--brand-dark) 100%);
+    border-radius:var(--radius-l);
+    padding:38px 40px;
+    color:#fff;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px;
+    margin-bottom:28px;
+    overflow:hidden;
+    position:relative;
+  }
+  .shop-hero::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity:.5;
+  }
+  .shop-hero .copy{position:relative; max-width:420px;}
+  .shop-hero .eyebrow{font-size:12px; letter-spacing:.06em; color:var(--accent); font-weight:600; margin-bottom:10px;}
+  .shop-hero h2{font-size:27px; color:#fff; margin-bottom:10px;}
+  .shop-hero p{color:#EEDBDF; font-size:13.5px;}
+  .shop-hero .cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--accent); color:var(--brand-dark);
+    font-weight:600; font-size:13.5px;
+    padding:11px 20px; border-radius:999px;
+    margin-top:18px; position:relative;
+  }
+  .shop-hero .stat-block{
+    position:relative; flex:none;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+  }
+  .shop-hero .stat{text-align:center;}
+  .shop-hero .stat b{display:block; font-family:'Fraunces'; font-size:24px;}
+  .shop-hero .stat span{font-size:11px; color:#E3B9C2;}
+
+  .product-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m);
+    overflow:hidden; box-shadow:var(--shadow);
+  }
+  .product-thumb{
+    height:150px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .product-body{padding:16px 18px 18px;}
+  .product-body .cat{font-size:11px; color:var(--brand); font-weight:600; letter-spacing:.02em;}
+  .product-body h3{font-size:15px; margin-top:5px;}
+  .product-body .price-row{display:flex; align-items:center; justify-content:space-between; margin-top:12px;}
+  .product-body .price{font-family:'Fraunces'; font-size:17px; font-weight:600; color:var(--brand-dark);}
+  .product-body .add{
+    width:32px; height:32px; border-radius:50%; background:var(--brand-soft);
+    display:flex; align-items:center; justify-content:center; border:none; color:var(--brand-dark);
+  }
+
+  /* policy list (suri shop CS reference) */
+  .policy-item{padding:16px 0; border-bottom:1px solid var(--line);}
+  .policy-item:last-child{border-bottom:none;}
+  .policy-item h3{font-size:14.5px; font-weight:600; margin-bottom:5px;}
+  .policy-item p{font-size:13.5px;}
+
+  /* mobile nav trigger */
+  .menu-trigger{display:none; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; }
+
+  @media (max-width: 980px){
+    .grid.cols-3{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width: 760px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed; inset:0 20% 0 0; z-index:40;
+      transform:translateX(-100%); transition:transform .25s ease;
+      box-shadow:20px 0 40px rgba(0,0,0,.2);
+    }
+    .sidebar.open{transform:translateX(0);}
+    .menu-trigger{display:flex;}
+    .topbar{padding:18px 20px;}
+    .panel{padding:22px 20px 48px;}
+    .grid.cols-3, .grid.cols-2{grid-template-columns:1fr;}
+    .shop-hero{flex-direction:column; align-items:flex-start;}
+    .search{min-width:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div class="brand-text">
+        <div class="name">Suri</div>
+        <div class="sub">Central do time de CS</div>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="estrategias">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+        Estratégias
+      </button>
+      <button class="tab-btn" data-tab="formacoes">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.5V17c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5.5"/></svg>
+        Formações internas
+      </button>
+      <button class="tab-btn" data-tab="eventos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        Eventos
+      </button>
+      <button class="tab-btn" data-tab="atualizacoes">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        Atualizações
+      </button>
+      <button class="tab-btn" data-tab="faq">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.8.4-1.4 1-1.4 2.1"/><circle cx="12" cy="17" r=".3" fill="currentColor"/></svg>
+        FAQ
+      </button>
+      <button class="tab-btn" data-tab="suri-shop">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        Suri Shop · E-commerce
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="avatar">CS</div>
+      <div class="who">Time de CS<span>Ambiente interno</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <button class="menu-trigger" id="menuTrigger" style="margin-bottom:10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="eyebrow" id="topEyebrow">Planejamento</div>
+        <h1 id="topTitle">Estratégias</h1>
+        <p class="desc" id="topDesc">Onde o time de CS alinha metas, prioridades e diretrizes de atendimento.</p>
+      </div>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Buscar no ambiente...">
+      </div>
+    </header>
+
+    <!-- PANEL: ESTRATÉGIAS -->
+    <section class="panel active" id="estrategias">
+      <div class="subnav" data-parent="estrategias">
+        <button class="sub-btn active" data-sub="visao-geral">Visão geral</button>
+        <button class="sub-btn" data-sub="metas-cs">Metas do CS</button>
+        <button class="sub-btn" data-sub="playbooks">Playbooks</button>
+      </div>
+
+      <div class="sub-panel active" data-sub-panel="visao-geral">
+        <div class="grid cols-3">
+          <div class="card">
+            <span class="tag on">Em andamento</span>
+            <h3>OKRs do trimestre</h3>
+            <p>Objetivos e resultados-chave do time de CS para o trimestre atual, com donos e prazos definidos.</p>
+            <div class="meta-row"><span>3 objetivos ativos</span><span>Atualizado há 2 dias</span></div>
+          </div>
+          <div class="card">
+            <span class="tag planned">Planejado</span>
+            <h3>Redução de tempo de resposta</h3>
+            <p>Iniciativas para diminuir o tempo médio de primeira resposta ao cliente.</p>
+            <div class="meta-row"><span>4 iniciativas</span><span>Revisão mensal</span></div>
+          </div>
+          <div class="card">
+            <span class="tag done">Concluído</span>
+            <h3>Padronização de tom de voz</h3>
+            <p>Diretrizes de comunicação alinhadas ao posicionamento da marca Suri.</p>
+            <div class="meta-row"><span>Documento base</span><span>Fechado</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="metas-cs">
+        <div class="empty-sub">
+          <strong>Metas do CS</strong>
+          Subcategoria ainda vazia — em breve o time adiciona os indicadores e metas aqui (CSAT, tempo de resposta, taxa de resolução).
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="playbooks">
+        <div class="empty-sub">
+          <strong>Playbooks</strong>
+          Espaço reservado para os roteiros de atendimento por tipo de caso, à medida que forem sendo criados.
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: FORMAÇÕES INTERNAS -->
+    <section class="panel" id="formacoes">
+      <div class="subnav" data-parent="formacoes">
+        <button class="sub-btn active" data-sub="level-up-2026">Suri Level UP 2026</button>
+      </div>
+
+      <div class="sub-panel active" data-sub-panel="level-up-2026">
+        <div class="empty-sub">
+          <strong>Suri Level UP 2026</strong>
+          Trilha de formação Suri Level UP 2026 — conteúdo e módulos serão adicionados aqui em breve.
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: EVENTOS -->
+    <section class="panel" id="eventos">
+      <div class="card" style="padding:6px 22px;">
+        <div class="event-row">
+          <div class="event-date"><div class="d">14</div><div class="m">Set</div></div>
+          <div class="event-info">
+            <h3>Reunião geral do time de CS</h3>
+            <p>Alinhamento de indicadores do mês e novidades da Suri Shop.</p>
+            <div class="chips"><span class="chip">Online</span><span class="chip">10h</span></div>
+          </div>
+        </div>
+        <div class="event-row">
+          <div class="event-date"><div class="d">22</div><div class="m">Set</div></div>
+          <div class="event-info">
+            <h3>Treinamento: novo catálogo</h3>
+            <p>Apresentação das próximas coleções para orientar o atendimento.</p>
+            <div class="chips"><span class="chip">Presencial</span><span class="chip">14h</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: ATUALIZAÇÕES -->
+    <section class="panel" id="atualizacoes">
+      <div class="subnav" data-parent="atualizacoes">
+        <button class="sub-btn active" data-sub="produto">Atualizações de produto</button>
+        <button class="sub-btn" data-sub="processos">Atualizações Soft CS</button>
+      </div>
+
+      <div class="sub-panel active" data-sub-panel="produto">
+        <div class="card">
+          <div class="update-item">
+            <div class="update-dot"></div>
+            <div>
+              <div class="date">28 de agosto de 2026</div>
+              <h3>Suri Shop ganha nova identidade visual</h3>
+              <p>Paleta e tipografia atualizadas para reforçar o posicionamento da marca.</p>
+            </div>
+          </div>
+          <div class="update-item" style="border-bottom:none;">
+            <div class="update-dot"></div>
+            <div>
+              <div class="date">12 de agosto de 2026</div>
+              <h3>Novo catálogo no ar</h3>
+              <p>Linha de acessórios adicionada à loja — vale revisar para orientar clientes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="processos">
+        <div class="empty-sub">
+          <strong>Atualizações Soft CS</strong>
+          Mudanças nas ferramentas e processos internos do CS (SLA, escalonamento, sistemas) entram aqui conforme forem publicadas.
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: FAQ -->
+    <section class="panel" id="faq">
+      <div class="subnav" data-parent="faq">
+        <button class="sub-btn active" data-sub="clientes">Dúvidas de clientes</button>
+        <button class="sub-btn" data-sub="interno">Dúvidas internas</button>
+      </div>
+
+      <div class="sub-panel active" data-sub-panel="clientes">
+        <div class="faq-item">
+          <button class="faq-q">Qual o prazo de entrega dos pedidos? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq-a"><div class="faq-a-inner">O prazo varia por região e é informado no checkout antes da finalização da compra.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Como funcionam trocas e devoluções? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq-a"><div class="faq-a-inner">O cliente tem até 7 dias corridos após o recebimento para solicitar troca ou devolução.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Quais formas de pagamento são aceitas? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq-a"><div class="faq-a-inner">Cartão de crédito, Pix e boleto, com parcelamento disponível em compras acima do valor mínimo.</div></div>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="interno">
+        <div class="faq-item">
+          <button class="faq-q">Onde encontro os materiais de treinamento? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq-a"><div class="faq-a-inner">Todos os módulos ficam disponíveis na guia "Formações internas", com progresso salvo automaticamente.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Como acompanho as metas do time? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq-a"><div class="faq-a-inner">Os OKRs e metas de CS estão na guia "Estratégias", atualizados semanalmente.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: SURI SHOP -->
+    <section class="panel" id="suri-shop">
+      <div class="shop-hero">
+        <div class="copy">
+          <div class="eyebrow">Suri Shop</div>
+          <h2>A loja, do jeito que o CS precisa conhecer.</h2>
+          <p>Referência rápida de catálogo, políticas e indicadores para apoiar o atendimento.</p>
+          <a href="#" class="cta">Visitar loja
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="stat-block">
+          <div class="stat"><b>128</b><span>produtos</span></div>
+          <div class="stat"><b>4.8</b><span>avaliação</span></div>
+          <div class="stat"><b>2.3k</b><span>pedidos</span></div>
+        </div>
+      </div>
+
+      <div class="subnav" data-parent="suri-shop">
+        <button class="sub-btn active" data-sub="fundamentos">Fundamentos de um E-commerce</button>
+        <button class="sub-btn" data-sub="provedores">Provedores</button>
+        <button class="sub-btn" data-sub="gateway">Gateway de pagamento</button>
+      </div>
+
+      <div class="sub-panel active" data-sub-panel="fundamentos">
+        <div class="empty-sub">
+          <strong>Fundamentos de um E-commerce</strong>
+          Conceitos essenciais de e-commerce para apoiar o atendimento — conteúdo em breve.
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="provedores">
+        <div class="subnav-nested" data-nested-parent="provedores">
+          <button class="sub-btn active" data-sub="loja-suri-shop">Loja Suri Shop</button>
+          <button class="sub-btn" data-sub="vtex">Vtex</button>
+          <button class="sub-btn" data-sub="shopify">Shopify</button>
+          <button class="sub-btn" data-sub="mercadapp">Mercadapp</button>
+          <button class="sub-btn" data-sub="tray">Tray</button>
+          <button class="sub-btn" data-sub="winthor">Winthor</button>
+        </div>
+
+        <div class="nested-panel active" data-nested-panel="loja-suri-shop">
+          <div class="empty-sub">
+            <strong>Loja Suri Shop</strong>
+            Informações sobre a plataforma da loja Suri Shop entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="vtex">
+          <div class="empty-sub">
+            <strong>Vtex</strong>
+            Informações sobre o provedor Vtex entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="shopify">
+          <div class="empty-sub">
+            <strong>Shopify</strong>
+            Informações sobre o provedor Shopify entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="mercadapp">
+          <div class="empty-sub">
+            <strong>Mercadapp</strong>
+            Informações sobre o provedor Mercadapp entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="tray">
+          <div class="empty-sub">
+            <strong>Tray</strong>
+            Informações sobre o provedor Tray entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="winthor">
+          <div class="empty-sub">
+            <strong>Winthor</strong>
+            Informações sobre o provedor Winthor entram aqui.
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-panel" data-sub-panel="gateway">
+        <div class="subnav-nested" data-nested-parent="gateway">
+          <button class="sub-btn active" data-sub="mercado-pago">Mercado Pago</button>
+          <button class="sub-btn" data-sub="pagar-me">Pagar Me</button>
+          <button class="sub-btn" data-sub="rede">Rede</button>
+          <button class="sub-btn" data-sub="pagbrasil">PagBrasil</button>
+        </div>
+
+        <div class="nested-panel active" data-nested-panel="mercado-pago">
+          <div class="empty-sub">
+            <strong>Mercado Pago</strong>
+            Informações sobre o gateway Mercado Pago entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="pagar-me">
+          <div class="empty-sub">
+            <strong>Pagar Me</strong>
+            Informações sobre o gateway Pagar Me entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="rede">
+          <div class="empty-sub">
+            <strong>Rede</strong>
+            Informações sobre o gateway Rede entram aqui.
+          </div>
+        </div>
+        <div class="nested-panel" data-nested-panel="pagbrasil">
+          <div class="empty-sub">
+            <strong>PagBrasil</strong>
+            Informações sobre o gateway PagBrasil entram aqui.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  const meta = {
+    estrategias: {eyebrow:'Planejamento', title:'Estratégias', desc:'Onde o time de CS alinha metas, prioridades e diretrizes de atendimento.'},
+    formacoes: {eyebrow:'Aprendizado', title:'Formações internas', desc:'Trilhas de capacitação do time, com progresso individual por módulo.'},
+    eventos: {eyebrow:'Agenda', title:'Eventos', desc:'Encontros, treinamentos e datas importantes para o time de CS.'},
+    atualizacoes: {eyebrow:'Novidades', title:'Atualizações', desc:'Histórico do que mudou em produto e processos internos.'},
+    faq: {eyebrow:'Suporte', title:'FAQ', desc:'Respostas rápidas para dúvidas de clientes e do próprio time.'},
+    'suri-shop': {eyebrow:'E-commerce', title:'Suri Shop', desc:'Referência da loja online para apoiar o atendimento ao cliente.'}
+  };
+
+  tabs.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.tab;
+      tabs.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(id).classList.add('active');
+      document.getElementById('topEyebrow').textContent = meta[id].eyebrow;
+      document.getElementById('topTitle').textContent = meta[id].title;
+      document.getElementById('topDesc').textContent = meta[id].desc;
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+
+  document.querySelectorAll('.subnav').forEach(nav=>{
+    const parentId = nav.dataset.parent;
+    const parentPanel = document.getElementById(parentId);
+    const subButtons = nav.querySelectorAll('.sub-btn');
+    const subPanels = parentPanel.querySelectorAll('.sub-panel');
+    subButtons.forEach(sb=>{
+      sb.addEventListener('click', ()=>{
+        subButtons.forEach(b=>b.classList.remove('active'));
+        subPanels.forEach(p=>p.classList.remove('active'));
+        sb.classList.add('active');
+        parentPanel.querySelector('[data-sub-panel="'+sb.dataset.sub+'"]').classList.add('active');
+      });
+    });
+  });
+
+  document.querySelectorAll('.subnav-nested').forEach(nav=>{
+    const scope = nav.closest('.sub-panel');
+    const subButtons = nav.querySelectorAll('.sub-btn');
+    const subPanels = scope.querySelectorAll('.nested-panel');
+    subButtons.forEach(sb=>{
+      sb.addEventListener('click', ()=>{
+        subButtons.forEach(b=>b.classList.remove('active'));
+        subPanels.forEach(p=>p.classList.remove('active'));
+        sb.classList.add('active');
+        scope.querySelector('[data-nested-panel="'+sb.dataset.sub+'"]').classList.add('active');
+      });
+    });
+  });
+
+  document.querySelectorAll('.faq-q').forEach(q=>{
+    q.addEventListener('click', ()=>{
+      const item = q.parentElement;
+      const answer = item.querySelector('.faq-a');
+      const isOpen = item.classList.contains('open');
+      item.classList.toggle('open');
+      answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
+    });
+  });
+
+  document.getElementById('menuTrigger').addEventListener('click', ()=>{
+    document.getElementById('sidebar').classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>

@@ -453,6 +453,48 @@
     border:none;
   }
 
+  /* ---------- updates calendar ---------- */
+  .updates-cal{display:flex; gap:26px; flex-wrap:wrap; align-items:flex-start;}
+  .updates-cal-calendar{
+    flex:none; width:290px;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m);
+    padding:18px; box-shadow:var(--shadow);
+  }
+  .cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .cal-head button{
+    background:var(--brand-soft); color:var(--brand-dark); border:none;
+    width:26px; height:26px; border-radius:8px; cursor:pointer; font-size:15px; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:background .15s ease, color .15s ease;
+  }
+  .cal-head button:hover{background:var(--brand); color:#fff;}
+  .cal-month-label{font-family:'Fraunces'; font-weight:600; font-size:14px; color:var(--ink); text-transform:capitalize;}
+  .cal-weekdays{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:6px;}
+  .cal-weekdays span{font-size:10px; text-align:center; color:var(--ink-soft); font-weight:600;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:3px;}
+  .cal-day{
+    position:relative; aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    font-size:12px; border-radius:8px; color:var(--ink-soft);
+  }
+  .cal-day.empty{visibility:hidden;}
+  .cal-day.today{box-shadow:inset 0 0 0 1.5px var(--brand);}
+  .cal-day.has-update{cursor:pointer; color:var(--ink); font-weight:700; background:var(--brand-soft);}
+  .cal-day.has-update:hover{background:var(--brand); color:#fff;}
+  .cal-day.has-update.selected{background:var(--brand); color:#fff;}
+  .cal-day.has-update::after{
+    content:''; position:absolute; bottom:3px; left:50%; transform:translateX(-50%);
+    width:4px; height:4px; border-radius:50%; background:var(--brand-dark);
+  }
+  .cal-day.has-update.selected::after{background:#fff;}
+  .updates-cal-list{flex:1; min-width:260px;}
+  .updates-cal-hint{
+    font-size:13px; color:var(--ink-soft); font-style:italic;
+    padding:32px 20px; text-align:center; background:var(--surface);
+    border:1px dashed var(--line); border-radius:var(--radius-m);
+  }
+  @media (max-width:760px){
+    .updates-cal-calendar{width:100%;}
+  }
+
   /* mobile nav trigger */
   .menu-trigger{display:none; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px; }
 
@@ -581,44 +623,66 @@
       </div>
 
       <div class="sub-panel active" data-sub-panel="suri-shop-upd">
-        <div class="card">
-          <div class="update-item">
-            <div class="update-dot"></div>
-            <div>
-              <div class="date">28 de agosto de 2026</div>
-              <h3>Suri Shop ganha nova identidade visual</h3>
-              <p>Paleta e tipografia atualizadas para reforçar o posicionamento da marca.</p>
+        <div class="updates-cal">
+          <script type="application/json" class="updates-data">[{"date": "2026-08-28", "title": "Suri Shop ganha nova identidade visual", "desc": "Paleta e tipografia atualizadas para reforçar o posicionamento da marca."}, {"date": "2026-08-12", "title": "Novo catálogo no ar", "desc": "Linha de acessórios adicionada à loja — vale revisar para orientar clientes."}]</script>
+          <div class="updates-cal-calendar">
+            <div class="cal-head">
+              <button type="button" data-dir="-1" aria-label="Mês anterior">&lsaquo;</button>
+              <div class="cal-month-label"></div>
+              <button type="button" data-dir="1" aria-label="Próximo mês">&rsaquo;</button>
             </div>
+            <div class="cal-weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+            <div class="cal-grid"></div>
           </div>
-          <div class="update-item" style="border-bottom:none;">
-            <div class="update-dot"></div>
-            <div>
-              <div class="date">12 de agosto de 2026</div>
-              <h3>Novo catálogo no ar</h3>
-              <p>Linha de acessórios adicionada à loja — vale revisar para orientar clientes.</p>
-            </div>
-          </div>
+          <div class="updates-cal-list"></div>
         </div>
       </div>
 
       <div class="sub-panel" data-sub-panel="produto">
-        <div class="empty-sub">
-          <strong>Produto</strong>
-          Novidades e mudanças no produto entram aqui conforme forem publicadas.
+        <div class="updates-cal">
+          <script type="application/json" class="updates-data">[]</script>
+          <div class="updates-cal-calendar">
+            <div class="cal-head">
+              <button type="button" data-dir="-1" aria-label="Mês anterior">&lsaquo;</button>
+              <div class="cal-month-label"></div>
+              <button type="button" data-dir="1" aria-label="Próximo mês">&rsaquo;</button>
+            </div>
+            <div class="cal-weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+            <div class="cal-grid"></div>
+          </div>
+          <div class="updates-cal-list"></div>
         </div>
       </div>
 
       <div class="sub-panel" data-sub-panel="deploy">
-        <div class="empty-sub">
-          <strong>Deploy</strong>
-          Registro de deploys e releases entra aqui conforme forem publicados.
+        <div class="updates-cal">
+          <script type="application/json" class="updates-data">[{"date": "2026-08-16", "title": "Checkout Shopify mais simples", "desc": "Lojas que utilizam Shopify agora contam com duas novas configurações em Suri Shop > Preferências para desativar as etapas de CPF e telefone durante o processo de compra. Na prática, o cliente não precisa informar novamente no Suri Shop dados que já foram preenchidos — menos repetição, menos atrito e uma jornada de compra mais direta. A configuração vale tanto para vendas assistidas quanto para vendas automáticas."}, {"date": "2026-08-16", "title": "Mais autonomia para integrar", "desc": "A conexão com o RD Marketing agora pode ser configurada diretamente pela plataforma, em Configurações > Integrações. A mudança deixa o gerenciamento mais simples e dá mais autonomia para quem precisa configurar ou administrar essa integração no dia a dia."}, {"date": "2026-08-16", "title": "Uma experiência de compra ainda mais fluida", "desc": "A jornada de compra pelo WhatsApp ganhou melhorias que deixam a experiência mais simples e intuitiva. Agora, ao selecionar um produto com variações pelo carrossel, o cliente consegue escolher a opção desejada e seguir normalmente com a compra. Além disso, a IA de vendas está ainda mais integrada à jornada de alteração de pedidos: durante a etapa de pagamento, ela consegue buscar os produtos solicitados e dar continuidade à atualização do pedido."}, {"date": "2026-08-16", "title": "Mais visibilidade para os pagamentos", "desc": "Aprimoramos a experiência de acompanhamento dos pagamentos. Agora, além de uma maior rastreabilidade das transações realizadas pelos gateways MaxiPago e eRede, o TOTVS Pay permite visualizar de forma clara se a integração está ativada ou desativada. Mais visibilidade sobre as configurações significa mais autonomia para acompanhar a operação e mais segurança na gestão dos pagamentos."}, {"date": "2026-08-16", "title": "CNPJ alfanumérico: o Suri Shop já está preparada", "desc": "O CNPJ está passando por uma mudança importante, e o Suri Shop já está preparada para essa nova realidade. Agora, CNPJs alfanuméricos estão habilitados na plataforma, garantindo que a operação continue acompanhando as novas regras de identificação empresarial sem precisar adaptar processos manualmente. Mais uma evolução para deixar o Suri Shop pronta para o que vem pela frente."}]</script>
+          <div class="updates-cal-calendar">
+            <div class="cal-head">
+              <button type="button" data-dir="-1" aria-label="Mês anterior">&lsaquo;</button>
+              <div class="cal-month-label"></div>
+              <button type="button" data-dir="1" aria-label="Próximo mês">&rsaquo;</button>
+            </div>
+            <div class="cal-weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+            <div class="cal-grid"></div>
+          </div>
+          <div class="updates-cal-list"></div>
         </div>
       </div>
 
       <div class="sub-panel" data-sub-panel="soft-cs">
-        <div class="empty-sub">
-          <strong>Atualizações Soft CS</strong>
-          Mudanças nas ferramentas e processos internos do CS (SLA, escalonamento, sistemas) entram aqui conforme forem publicadas.
+        <div class="updates-cal">
+          <script type="application/json" class="updates-data">[{"date": "2026-09-09", "title": "Envio de template com anexo na integração WPP Suri", "desc": "Agora é possível enviar templates com anexo pela integração de WhatsApp da Suri."}, {"date": "2026-09-09", "title": "Clique no título do chamado agora abre o chamado", "desc": "Ao clicar no título do chamado, o sistema abre o chamado normalmente, em vez de entrar no modo de edição do título."}, {"date": "2026-09-09", "title": "Scroll na lista de e-mails para envio", "desc": "A lista de e-mails para envio agora conta com scroll, eliminando a necessidade de dar zoom-out para visualizar todos os itens."}, {"date": "2026-09-09", "title": "Novo status de ticket: Cancelado", "desc": "Adicionado o status “Cancelado” para tickets, permitindo identificar chamados encerrados sem resolução."}]</script>
+          <div class="updates-cal-calendar">
+            <div class="cal-head">
+              <button type="button" data-dir="-1" aria-label="Mês anterior">&lsaquo;</button>
+              <div class="cal-month-label"></div>
+              <button type="button" data-dir="1" aria-label="Próximo mês">&rsaquo;</button>
+            </div>
+            <div class="cal-weekdays"><span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span></div>
+            <div class="cal-grid"></div>
+          </div>
+          <div class="updates-cal-list"></div>
         </div>
       </div>
     </section>
@@ -2856,6 +2920,107 @@
       body.style.maxHeight = isOpen ? null : body.scrollHeight + 'px';
     });
   });
+
+  // ---------- updates calendar ----------
+  (function initUpdatesCalendars(){
+    const monthNames = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+    document.querySelectorAll('.updates-cal').forEach(function(root){
+      const dataEl = root.querySelector('.updates-data');
+      let updates = [];
+      try { updates = JSON.parse(dataEl.textContent); } catch(e) { updates = []; }
+
+      const byDate = {};
+      updates.forEach(function(u){
+        (byDate[u.date] = byDate[u.date] || []).push(u);
+      });
+      const dates = Object.keys(byDate).sort();
+
+      let current;
+      if (dates.length) {
+        const parts = dates[dates.length - 1].split('-');
+        current = { y: parseInt(parts[0], 10), m: parseInt(parts[1], 10) - 1 };
+      } else {
+        const now = new Date();
+        current = { y: now.getFullYear(), m: now.getMonth() };
+      }
+      let selected = dates.length ? dates[dates.length - 1] : null;
+
+      const monthLabel = root.querySelector('.cal-month-label');
+      const grid = root.querySelector('.cal-grid');
+      const listBox = root.querySelector('.updates-cal-list');
+      const prevBtn = root.querySelector('[data-dir="-1"]');
+      const nextBtn = root.querySelector('[data-dir="1"]');
+
+      function formatDateLong(dateStr){
+        const parts = dateStr.split('-');
+        return parseInt(parts[2], 10) + ' de ' + monthNames[parseInt(parts[1], 10) - 1] + ' de ' + parts[0];
+      }
+
+      function renderCalendar(){
+        monthLabel.textContent = monthNames[current.m] + ' de ' + current.y;
+        grid.innerHTML = '';
+        const firstDay = new Date(current.y, current.m, 1).getDay();
+        const daysInMonth = new Date(current.y, current.m + 1, 0).getDate();
+        const todayStr = new Date().toISOString().slice(0, 10);
+
+        for (let i = 0; i < firstDay; i++) {
+          const empty = document.createElement('div');
+          empty.className = 'cal-day empty';
+          grid.appendChild(empty);
+        }
+        for (let d = 1; d <= daysInMonth; d++) {
+          const dateStr = current.y + '-' + pad(current.m + 1) + '-' + pad(d);
+          const cell = document.createElement('div');
+          cell.className = 'cal-day';
+          cell.textContent = d;
+          if (dateStr === todayStr) cell.classList.add('today');
+          if (byDate[dateStr]) {
+            cell.classList.add('has-update');
+            if (dateStr === selected) cell.classList.add('selected');
+            cell.addEventListener('click', function(){
+              selected = (selected === dateStr) ? null : dateStr;
+              renderCalendar();
+              renderList();
+            });
+          }
+          grid.appendChild(cell);
+        }
+      }
+
+      function renderList(){
+        if (!selected) {
+          listBox.innerHTML = '<div class="updates-cal-hint">'+
+            (dates.length ? 'Selecione uma data destacada no calendário para ver as atualizações.' : 'Nenhuma atualização registrada ainda.') +
+            '</div>';
+          return;
+        }
+        const items = byDate[selected] || [];
+        let html = '<div class="card">';
+        items.forEach(function(u, idx){
+          html += '<div class="update-item"' + (idx === items.length - 1 ? ' style="border-bottom:none;"' : '') + '>' +
+            '<div class="update-dot"></div>' +
+            '<div><div class="date">' + formatDateLong(selected) + '</div><h3>' + u.title + '</h3><p>' + u.desc + '</p></div>' +
+            '</div>';
+        });
+        html += '</div>';
+        listBox.innerHTML = html;
+      }
+
+      prevBtn.addEventListener('click', function(){
+        current.m--; if (current.m < 0) { current.m = 11; current.y--; }
+        renderCalendar();
+      });
+      nextBtn.addEventListener('click', function(){
+        current.m++; if (current.m > 11) { current.m = 0; current.y++; }
+        renderCalendar();
+      });
+
+      renderCalendar();
+      renderList();
+    });
+  })();
 </script>
 
 </body>

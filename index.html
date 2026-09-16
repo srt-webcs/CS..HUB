@@ -2607,33 +2607,207 @@
         </div>
         <div class="nested-panel" data-nested-panel="winthor">
           <div class="pb-header">
-            <div class="eyebrow">Playbook de implementação</div>
-            <h2>Integração WinThor</h2>
-            <p>Guia para configurar a integração da Suri com o ERP WinThor.</p>
+            <div class="eyebrow">Documentação técnica</div>
+            <h2>Configuração da integração TOTVS WinThor</h2>
+            <p>O WinThor é o ERP da TOTVS utilizado para o cadastro e gerenciamento de produtos, preços, estoque e pedidos. A integração conecta o Suri Shop ao WinThor para trazer o catálogo do ERP para a loja do bot e enviar ao WinThor os pedidos realizados no Suri Shop.</p>
           </div>
           <div class="pb-meta">
-            <div>Criado por<b>lorran@chatbotmaker.io</b></div>
-            <div>Revisado por<b>—</b></div>
-            <div>Criado em<b>25 de maio de 2026</b></div>
-            <div>Última edição<b>25/05/2026</b></div>
+            <div>Público<b>CS</b></div>
+            <div>Tipo<b>Documento funcional</b></div>
           </div>
-          <ol class="step-list">
-            <li><span class="step-num">1</span><span>Acesse a Suri na aba <b>Shop &gt; Aplicativos</b> e selecione a opção <b>WinThor</b>.</span></li>
-            <li><span class="step-num">2</span><span>Preencha os campos:</span></li>
-          </ol>
-          <ul class="bullet-list">
-            <li><b>Host*:</b> ex.: api.empresa.com</li>
-            <li><b>Porta:</b> ex.: 8080</li>
-            <li><b>Login*:</b> usuário do WinThor</li>
-            <li><b>Senha*:</b> senha do WinThor</li>
+
+          <ul class="toc-list">
+            <li><a href="#pb-winthor-funcionamento"><span class="toc-num">1</span> Funcionamento da integração</a></li>
+            <li><a href="#pb-winthor-sincronizadas"><span class="toc-num">2</span> Informações sincronizadas</a></li>
+            <li><a href="#pb-winthor-prereq"><span class="toc-num">3</span> Pré-requisitos para a conexão</a></li>
+            <li><a href="#pb-winthor-acesso"><span class="toc-num">4</span> Acesso ao aplicativo</a></li>
+            <li><a href="#pb-winthor-config"><span class="toc-num">5</span> Configuração</a></li>
+            <li><a href="#pb-winthor-auth"><span class="toc-num">6</span> Autenticação e início da sincronização</a></li>
+            <li><a href="#pb-winthor-acompanhamento"><span class="toc-num">7</span> Acompanhamento da sincronização</a></li>
+            <li><a href="#pb-winthor-pedido"><span class="toc-num">8</span> Envio do pedido ao WinThor</a></li>
           </ul>
-          <div class="callout">
-            <strong>Observação</strong>
-            Todos os dados acima são os mesmos que o cliente usa para fazer login no ERP WinThor.
+
+          <div class="stage open" id="pb-winthor-funcionamento">
+            <button class="stage-head">
+              <span class="num">1</span>
+              <h3>Funcionamento da integração</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>A integração realiza a comunicação entre o WinThor e o Suri Shop. O WinThor fornece as informações cadastradas no ERP, enquanto o Suri Shop disponibiliza o catálogo e o checkout no bot. Após a finalização da compra, o pedido é enviado ao WinThor.</p>
+              </div>
+            </div>
           </div>
-          <ol class="step-list">
-            <li><span class="step-num">3</span><span>Após preencher os campos acima, clique no botão <b>Instalar</b> na Suri.</span></li>
-          </ol>
+
+          <div class="stage open" id="pb-winthor-sincronizadas">
+            <button class="stage-head">
+              <span class="num">2</span>
+              <h3>Informações sincronizadas</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>A sincronização do catálogo acontece em seis etapas:</p>
+                <ol class="step-list">
+                  <li><span class="step-num">1</span><span><b>Categorias:</b> os departamentos do ERP são transformados em categorias da loja.</span></li>
+                  <li><span class="step-num">2</span><span><b>Subcategorias:</b> as seções são organizadas dentro das categorias.</span></li>
+                  <li><span class="step-num">3</span><span><b>Lojas/filiais:</b> as filiais do WinThor são cadastradas como lojas.</span></li>
+                  <li><span class="step-num">4</span><span><b>Produtos:</b> os itens do catálogo são sincronizados com SKU e categoria.</span></li>
+                  <li><span class="step-num">5</span><span><b>Preços:</b> são sincronizados os preços e as ofertas dos produtos.</span></li>
+                  <li><span class="step-num">6</span><span><b>Estoque:</b> é sincronizada a quantidade disponível por filial.</span></li>
+                </ol>
+                <div class="callout">
+                  <strong>Observação</strong>
+                  A sincronização é realizada automaticamente todos os dias.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-prereq">
+            <button class="stage-head">
+              <span class="num">3</span>
+              <h3>Pré-requisitos para a conexão</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>Antes de configurar a integração, é necessário obter:</p>
+                <ul class="bullet-list">
+                  <li>O domínio ou host do ambiente WinThor</li>
+                  <li>A confirmação de que o domínio é público e pode ser acessado pela Suri</li>
+                  <li>A confirmação da existência de uma porta</li>
+                  <li>O número da porta utilizada, quando houver</li>
+                  <li>O login de acesso</li>
+                  <li>A senha de acesso</li>
+                </ul>
+                <div class="callout warning">
+                  <strong>Atenção</strong>
+                  O WinThor não possui uma porta padrão. Por isso, deve-se confirmar se o ambiente utiliza uma porta e qual é o número configurado.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-acesso">
+            <button class="stage-head">
+              <span class="num">4</span>
+              <h3>Acesso ao aplicativo</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>Para acessar a integração:</p>
+                <ol class="step-list">
+                  <li><span class="step-num">1</span><span>Acesse o chatbot em que o Suri Shop está configurado.</span></li>
+                  <li><span class="step-num">2</span><span>No menu lateral, acesse <b>Shop</b>.</span></li>
+                  <li><span class="step-num">3</span><span>Selecione <b>Aplicativos</b>.</span></li>
+                  <li><span class="step-num">4</span><span>Localize o aplicativo <b>TOTVS WinThor</b>.</span></li>
+                  <li><span class="step-num">5</span><span>Abra o aplicativo para acessar a configuração.</span></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-config">
+            <button class="stage-head">
+              <span class="num">5</span>
+              <h3>Configuração</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>Na tela de configuração do aplicativo TOTVS WinThor, estão disponíveis os seguintes campos:</p>
+                <table class="pb-table">
+                  <tr><th>Campo</th><th>Descrição</th></tr>
+                  <tr><td><b>Host</b></td><td>Campo obrigatório destinado ao domínio ou host utilizado na conexão com o WinThor. O domínio informado deve ser público para que a Suri consiga acessar a plataforma WinThor.</td></tr>
+                  <tr><td><b>Porta</b></td><td>Campo destinado ao número da porta utilizada na conexão. Como o WinThor não possui uma porta padrão, deve-se confirmar se existe uma porta configurada para o cliente e qual é essa porta.</td></tr>
+                  <tr><td><b>Login</b></td><td>Campo obrigatório destinado ao login utilizado na autenticação.</td></tr>
+                  <tr><td><b>Senha</b></td><td>Campo obrigatório destinado à senha utilizada na autenticação.</td></tr>
+                </table>
+                <p>Depois de preencher as informações, selecione <b>Salvar</b>.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-auth">
+            <button class="stage-head">
+              <span class="num">6</span>
+              <h3>Autenticação e início da sincronização</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>Ao instalar e configurar o aplicativo TOTVS WinThor:</p>
+                <ol class="step-list">
+                  <li><span class="step-num">1</span><span>A autenticação é realizada automaticamente.</span></li>
+                  <li><span class="step-num">2</span><span>As credenciais informadas são utilizadas para gerar o token de acesso à API.</span></li>
+                  <li><span class="step-num">3</span><span>A sincronização é iniciada.</span></li>
+                </ol>
+                <div class="callout warning">
+                  <strong>Atenção</strong>
+                  As alterações de produtos devem ser realizadas diretamente no ERP TOTVS WinThor.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-acompanhamento">
+            <button class="stage-head">
+              <span class="num">7</span>
+              <h3>Acompanhamento da sincronização</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>O andamento pode ser acompanhado na própria tela do aplicativo.</p>
+                <p><b>Andamento da sincronização</b> apresenta:</p>
+                <ul class="bullet-list">
+                  <li>O status da sincronização</li>
+                  <li>A data e o horário da última sincronização</li>
+                </ul>
+                <p><b>Histórico de etapas</b> apresenta o progresso das seis etapas:</p>
+                <ol class="step-list">
+                  <li><span class="step-num">1</span><span>Sincronização de categorias</span></li>
+                  <li><span class="step-num">2</span><span>Sincronização de subcategorias</span></li>
+                  <li><span class="step-num">3</span><span>Sincronização de lojas</span></li>
+                  <li><span class="step-num">4</span><span>Sincronização de produtos</span></li>
+                  <li><span class="step-num">5</span><span>Sincronização de preços</span></li>
+                  <li><span class="step-num">6</span><span>Sincronização de estoque</span></li>
+                </ol>
+                <div class="callout">
+                  <strong>Observação</strong>
+                  Quando o processo é finalizado, a tela apresenta a informação "Sincronização concluída".
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stage open" id="pb-winthor-pedido">
+            <button class="stage-head">
+              <span class="num">8</span>
+              <h3>Envio do pedido ao WinThor</h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="stage-body">
+              <div class="stage-body-inner">
+                <p>Quando uma compra é finalizada no bot, a integração registra o pedido no WinThor. O fluxo apresentado é:</p>
+                <ol class="step-list">
+                  <li><span class="step-num">1</span><span>O cliente finaliza o pedido no checkout do Suri Shop.</span></li>
+                  <li><span class="step-num">2</span><span>A integração busca o cliente no ERP e, caso ele não exista, realiza a criação.</span></li>
+                  <li><span class="step-num">3</span><span>Os itens, a filial, o frete e o pagamento são enviados ao WinThor.</span></li>
+                  <li><span class="step-num">4</span><span>O WinThor devolve a confirmação do pedido registrado.</span></li>
+                </ol>
+                <div class="callout">
+                  <strong>Observação</strong>
+                  O carrinho e o checkout são realizados no Suri Shop. A integração envia ao ERP o pedido já montado.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="pb-end">Fim da documentação técnica — Integração TOTVS WinThor.</p>
         </div>
         <div class="nested-panel" data-nested-panel="lexos">
           <div class="pb-header">

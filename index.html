@@ -454,6 +454,26 @@
   .pb-table th{background:var(--brand-soft); color:var(--brand-dark); font-weight:600;}
   .pb-table td b{color:var(--ink);}
 
+  /* ---------- spec tags (documentação técnica) ---------- */
+  .tag{display:inline-block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:3px 9px; border-radius:999px; margin-bottom:6px;}
+  .tag-standard{background:#E3F9E5; color:#1B8A3D;}
+  .tag-optional{background:var(--brand-soft); color:var(--brand-dark);}
+  .tag-client{background:#F3E8FF; color:#7C3AED;}
+  .tag-limit{background:#FFF3E0; color:#B45309;}
+  .spec-item{padding:14px 0; border-bottom:1px solid var(--line);}
+  .spec-item:last-child{border-bottom:none;}
+  .spec-item h4{font-size:14px; font-weight:600; margin:2px 0 4px; color:var(--ink);}
+  .spec-item p{font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin:0;}
+  .spec-flow{
+    display:flex; flex-wrap:wrap; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:600; color:var(--brand-dark);
+    background:var(--brand-soft); border-radius:var(--radius-s);
+    padding:14px 16px; margin:14px 0;
+  }
+  .spec-flow .arrow{color:var(--ink-soft); font-weight:400;}
+  .legend-row{display:flex; flex-wrap:wrap; gap:10px 18px; margin:14px 0; font-size:12px; color:var(--ink-soft);}
+  .legend-row span b{display:inline-block; margin-right:6px;}
+
   .pb-figure{margin:16px 0;}
   .pb-figure img{width:100%; max-width:480px; border-radius:var(--radius-s); border:1px solid var(--line); display:block;}
   .pb-figure figcaption{font-size:12px; color:var(--ink-soft); margin-top:6px; font-style:italic;}
@@ -573,10 +593,6 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
         Atualizações
       </button>
-      <button class="tab-btn" data-tab="faq">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.8.4-1.4 1-1.4 2.1"/><circle cx="12" cy="17" r=".3" fill="currentColor"/></svg>
-        FAQ
-      </button>
       <button class="tab-btn" data-tab="suri-shop">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
         Suri Shop · E-commerce
@@ -588,6 +604,10 @@
       <button class="tab-btn" data-tab="suri-shop-assistant">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V8a5 5 0 0 0-5-5Z"/><path d="M5 11v1a7 7 0 0 0 14 0v-1M12 19v3"/></svg>
         Suri Shop Assistant (IA)
+      </button>
+      <button class="tab-btn" data-tab="faq">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.8.4-1.4 1-1.4 2.1"/><circle cx="12" cy="17" r=".3" fill="currentColor"/></svg>
+        FAQ
       </button>
     </nav>
 
@@ -1470,6 +1490,7 @@
           <div class="subnav-inner" data-inner-parent="vtex">
             <button class="sub-btn active" data-inner="habilitando-provedor">Habilitando provedor</button>
             <button class="sub-btn" data-inner="recuperacao-pedido-externo">Habilitando recuperação de pedido externo</button>
+            <button class="sub-btn" data-inner="documentacao-tecnica">Documentação técnica</button>
           </div>
 
           <div class="inner-panel active" data-inner-panel="habilitando-provedor">
@@ -1806,6 +1827,332 @@
 
 <p class="pb-end">Fim do passo a passo — Configuração de Recuperação de Carrinho, VTEX.</p>
 
+          </div>
+          <div class="inner-panel" data-inner-panel="documentacao-tecnica">
+            <div class="pb-header">
+              <div class="eyebrow">Plataforma Suri · Módulo Shop</div>
+              <h2>Integração VTEX — Documentação técnica</h2>
+              <p>O que a integração contempla hoje. Quando um chatbot é configurado com VTEX, a compra inteira acontece sobre a loja do cliente — catálogo, carrinho, frete, pagamento e pedido são os mesmos do site.</p>
+            </div>
+            <div class="pb-meta">
+              <div>Escopo<b>O que está em produção</b></div>
+              <div>Público<b>Comercial, CS e produto</b></div>
+              <div>Atualizado em<b>16/09/2026</b></div>
+              <div>Tipo<b>Documento funcional — não descreve implementação</b></div>
+            </div>
+
+            <div class="legend-row">
+              <span><b class="tag tag-standard">Padrão</b>vem ligado em toda conta</span>
+              <span><b class="tag tag-optional">Opcional</b>liga na configuração</span>
+              <span><b class="tag tag-client">Por cliente</b>desenvolvido sob contrato</span>
+              <span><b class="tag tag-limit">Limite</b>não coberto hoje</span>
+            </div>
+
+            <div class="callout">
+              <strong>O princípio da integração</strong>
+              O chatbot não mantém catálogo nem pedido próprio. Ele opera a loja VTEX do cliente pela API: preço, estoque, promoção, cupom e regra de frete são sempre os da VTEX. A consequência prática é a que mais importa no dia a dia: não existe divergência entre o que o cliente vê no chat e o que ele veria no site. Um pedido fechado pelo chatbot aparece no admin da loja como qualquer outro pedido, com os mesmos status, as mesmas regras fiscais e o mesmo fluxo de expedição.
+            </div>
+
+            <ul class="toc-list">
+              <li><a href="#pb-vtexdoc-modo"><span class="toc-num">1</span> Modo da loja: IO ou CMS</a></li>
+              <li><a href="#pb-vtexdoc-canais"><span class="toc-num">2</span> Canais de venda e regionalização</a></li>
+              <li><a href="#pb-vtexdoc-catalogo"><span class="toc-num">3</span> Catálogo e busca</a></li>
+              <li><a href="#pb-vtexdoc-identificacao"><span class="toc-num">4</span> Identificação e login</a></li>
+              <li><a href="#pb-vtexdoc-carrinho"><span class="toc-num">5</span> Carrinho</a></li>
+              <li><a href="#pb-vtexdoc-entrega"><span class="toc-num">6</span> Entrega e retirada</a></li>
+              <li><a href="#pb-vtexdoc-pagamento"><span class="toc-num">7</span> Pagamento</a></li>
+              <li><a href="#pb-vtexdoc-pedido"><span class="toc-num">8</span> Pedido e pós-venda</a></li>
+              <li><a href="#pb-vtexdoc-b2b"><span class="toc-num">9</span> B2B</a></li>
+              <li><a href="#pb-vtexdoc-recuperacao"><span class="toc-num">10</span> Recuperação de carrinho abandonado</a></li>
+              <li><a href="#pb-vtexdoc-porcliente"><span class="toc-num">11</span> Integrações por cliente</a></li>
+              <li><a href="#pb-vtexdoc-fornecer"><span class="toc-num">12</span> O que o cliente precisa fornecer</a></li>
+              <li><a href="#pb-vtexdoc-limites"><span class="toc-num">13</span> Limites conhecidos</a></li>
+            </ul>
+
+            <div class="stage open" id="pb-vtexdoc-modo">
+              <button class="stage-head">
+                <span class="num">1</span>
+                <h3>Modo da loja: IO ou CMS</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <p>Toda conta VTEX opera em um dos dois modos, e a escolha muda o que a busca consegue entregar. É a primeira pergunta a fazer numa implantação.</p>
+                  <table class="pb-table">
+                    <tr><th>Modo</th><th>Busca</th><th>Sugestões e mais buscados</th></tr>
+                    <tr><td><b>IO</b></td><td>Intelligent Search — busca semântica, tolerante a erro de digitação</td><td>Sim</td></tr>
+                    <tr><td><b>CMS</b></td><td>Busca clássica de catálogo</td><td>Não</td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-canais">
+              <button class="stage-head">
+                <span class="num">2</span>
+                <h3>Canais de venda e regionalização</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <div class="spec-item">
+                    <span class="tag tag-standard">Padrão</span>
+                    <h4>Múltiplos canais de venda</h4>
+                    <p>Mais de um sales channel na mesma conta.</p>
+                  </div>
+                  <div class="spec-item">
+                    <span class="tag tag-standard">Padrão</span>
+                    <h4>Canal escolhido pelo CEP</h4>
+                    <p>O canal atendido é resolvido a partir do endereço do cliente.</p>
+                  </div>
+                  <div class="spec-item">
+                    <span class="tag tag-standard">Padrão</span>
+                    <h4>Preço e disponibilidade por região</h4>
+                    <p>O mesmo SKU pode ter preço e estoque diferentes por área atendida.</p>
+                  </div>
+                  <div class="spec-item">
+                    <span class="tag tag-optional">Opcional</span>
+                    <h4>Valor mínimo de pedido</h4>
+                    <p>Global ou definido canal a canal.</p>
+                  </div>
+                  <div class="spec-item">
+                    <span class="tag tag-optional">Opcional</span>
+                    <h4>Mensagem de restrição de entrega</h4>
+                    <p>Texto próprio quando a região não é atendida.</p>
+                  </div>
+
+                  <p style="margin-top:16px;"><b>A jornada de compra, na ordem em que o chatbot a executa:</b></p>
+                  <div class="spec-flow">
+                    <span>Início</span><span class="arrow">→</span>
+                    <span>CEP</span><span class="arrow">→</span>
+                    <span>Login</span><span class="arrow">→</span>
+                    <span>Catálogo</span><span class="arrow">→</span>
+                    <span>Identificação</span><span class="arrow">→</span>
+                    <span>Restrições</span><span class="arrow">→</span>
+                    <span>Entrega</span><span class="arrow">→</span>
+                    <span>Pagamento</span>
+                  </div>
+                  <p style="font-size:12px; color:var(--ink-soft);">As etapas de Login e Restrições são opcionais, dependendo da configuração da conta.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-catalogo">
+              <button class="stage-head">
+                <span class="num">3</span>
+                <h3>01 · Catálogo e busca</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Categorias e coleções</h4><p>Navegação pela árvore de categorias e pelas coleções da loja.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Busca por texto, categoria e filtros</h4><p>Isolados ou combinados; facetas podem ser ocultadas uma a uma.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Ordenação</h4><p>Mais vendidos, preço, relevância, avaliação, nome, lançamento e maior desconto.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Produto com variações</h4><p>Grade de SKUs, especificações e imagens.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Busca por SKU e por código interno</h4><p>Para atendimento com o código na mão.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Produto vendido por peso</h4><p>Itens em quilo, com subtotal proporcional.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Banners da vitrine</h4><p>As mesmas peças usadas na home da loja.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Exibir SKU sem estoque</h4><p>Mostrar ou esconder variações indisponíveis.</p></div>
+                  <div class="spec-item"><span class="tag tag-limit">Limite</span><h4>Sugestões e termos mais buscados</h4><p>Só existe em lojas no modo IO.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-identificacao">
+              <button class="stage-head">
+                <span class="num">4</span>
+                <h3>02 · Identificação e login</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <p>Dois cenários. Sem login, o cliente informa nome, documento, contato e endereço no próprio chat. Com login na conta VTEX, o cadastro vem da loja.</p>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Coleta de dados no chat</h4><p>Nome, CPF ou CNPJ, contato e endereço.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Login por e-mail e senha</h4><p>Autenticação na conta VTEX do cliente.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Login por código no e-mail</h4><p>A plataforma consulta a forma de login preferida da conta e oferece a adequada.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Cadastro puxado da VTEX</h4><p>Dados pessoais, endereços de entrega e endereços fiscais.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Bloqueio de edição no chat</h4><p>Mantém a VTEX como fonte única do cadastro.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-carrinho">
+              <button class="stage-head">
+                <span class="num">5</span>
+                <h3>03 · Carrinho</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Carrinho criado na VTEX</h4><p>Adicionar, alterar quantidade, remover item e limpar.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Promoções e descontos automáticos</h4><p>As mesmas regras que rodam no site.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Cupom de desconto</h4><p>Aplicado e validado pela própria loja.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Brindes selecionáveis</h4><p>Quando a promoção oferece escolha de brinde.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Itens com anexo ou atributo</h4><p>Assinatura e dados adicionais por item.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Recompra</h4><p>Recupera o último pedido do cliente e remonta o carrinho.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Validação antes do fechamento</h4><p>Erro da VTEX vira problema acionável: item indisponível, frete inválido, valor mínimo.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-entrega">
+              <button class="stage-head">
+                <span class="num">6</span>
+                <h3>04 · Entrega e retirada</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Endereço por CEP</h4><p>Preenchimento automático a partir do CEP informado.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Opções de frete</h4><p>Todas as SLAs da loja: transportadora, prazo e preço.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Retirada em loja</h4><p>Listagem dos pontos de retirada disponíveis.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Agendamento de entrega</h4><p>Quando a loja oferece janelas de data e hora.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Simulação de frete por item</h4><p>Antes de fechar, item a item.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Ligar e desligar cada modalidade</h4><p>Entrega e retirada são independentes.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-pagamento">
+              <button class="stage-head">
+                <span class="num">7</span>
+                <h3>05 · Pagamento</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <table class="pb-table">
+                    <tr><th>Forma</th><th>Como entra no fluxo</th><th>Status</th></tr>
+                    <tr><td>PIX</td><td>QR Code e copia-e-cola no chat</td><td><span class="tag tag-standard">Padrão</span></td></tr>
+                    <tr><td>Cartão de crédito</td><td>Parcelas, juros e bandeiras conforme a loja</td><td><span class="tag tag-standard">Padrão</span></td></tr>
+                    <tr><td>Cartão de débito</td><td>Conforme a loja</td><td><span class="tag tag-standard">Padrão</span></td></tr>
+                    <tr><td>Boleto</td><td>Ligado na configuração</td><td><span class="tag tag-optional">Opcional</span></td></tr>
+                    <tr><td>Nubank</td><td>Ligado na configuração</td><td><span class="tag tag-optional">Opcional</span></td></tr>
+                    <tr><td>Pagaleve</td><td>Ligado na configuração</td><td><span class="tag tag-optional">Opcional</span></td></tr>
+                    <tr><td>Crédito da loja</td><td>Consulta o limite do cliente e oferece condições de prazo</td><td><span class="tag tag-optional">Opcional</span></td></tr>
+                  </table>
+
+                  <p style="margin-top:16px;"><b>Também contemplado:</b></p>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Endereço de cobrança diferente</h4><p>Separado do endereço de entrega.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>reCAPTCHA</h4><p>Resolvido no fluxo quando a VTEX exige na transação.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Falha de pagamento classificada</h4><p>Antifraude, dado inválido ou erro genérico — o chat responde diferente em cada caso.</p></div>
+                  <div class="spec-item"><span class="tag tag-limit">Limite</span><h4>Crédito da loja com juros</h4><p>Hoje só são oferecidas as condições sem juros.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-pedido">
+              <button class="stage-head">
+                <span class="num">8</span>
+                <h3>06 · Pedido e pós-venda</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Pedido fechado na VTEX</h4><p>Entra no admin da loja como qualquer outro.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Notificação de status</h4><p>Pagamento aprovado, recusado, cancelado, faturado, enviado, pronto para manuseio e janela de cancelamento.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Consulta de pedidos anteriores</h4><p>Pelo documento do cliente.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Cancelamento de pedido</h4><p>Pelo próprio chat.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Anexo no pedido</h4><p>Receita médica e similares, associados aos itens.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Atendente registrado na venda</h4><p>A matrícula fica gravada no próprio pedido VTEX.</p></div>
+                  <div class="spec-item"><span class="tag tag-standard">Padrão</span><h4>Origem da venda (UTM)</h4><p>Separa no relatório o que veio do chatbot.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-b2b">
+              <button class="stage-head">
+                <span class="num">9</span>
+                <h3>B2B</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <p>Para lojas com o módulo B2B da VTEX, o cliente logado compra em nome de uma empresa.</p>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Organizações e unidades ativas</h4><p>Lista as empresas e cost centers do usuário logado.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Empresa lembrada entre atendimentos</h4><p>A escolha fica salva, com opção de trocar.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Dados da empresa no pedido</h4><p>CNPJ, razão social e endereços vão para o pedido.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Canal de venda por organização</h4><p>Cada empresa pode ter tabela própria, aplicada automaticamente.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Endereço de entrega da empresa</h4><p>Selecionável em lista, não digitado.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-recuperacao">
+              <button class="stage-head">
+                <span class="num">10</span>
+                <h3>Recuperação de carrinho abandonado</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <p>A VTEX avisa a plataforma quando um carrinho é largado no site. O chatbot aborda o cliente com o carrinho já montado.</p>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Abordagem com o carrinho montado</h4><p>O cliente retoma de onde parou, sem remontar nada.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Cupom de recuperação</h4><p>Templates de mensagem dedicados, com e sem cupom.</p></div>
+                  <div class="spec-item"><span class="tag tag-optional">Opcional</span><h4>Só recuperar com estoque</h4><p>Ignora carrinhos cujos itens já acabaram.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-porcliente">
+              <button class="stage-head">
+                <span class="num">11</span>
+                <h3>Integrações por cliente</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <p>Rodam em cima da integração VTEX e só ficam ativas quando contratadas e configuradas.</p>
+                  <div class="spec-item"><span class="tag tag-client">Por cliente</span><h4>PBM — desconto em medicamento</h4><p>Consulta de oferta por produto, validação do beneficiário, confirmação por token, cadastro no programa, validação do CRM do prescritor e preço subsidiado no carrinho.</p></div>
+                  <div class="spec-item"><span class="tag tag-client">Por cliente</span><h4>Medal</h4><p>Consulta de benefícios e clube do cliente por CPF.</p></div>
+                  <div class="spec-item"><span class="tag tag-client">Por cliente</span><h4>Registro de atendente</h4><p>Vincula a matrícula de quem atendeu ao pedido.</p></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-fornecer">
+              <button class="stage-head">
+                <span class="num">12</span>
+                <h3>O que o cliente precisa fornecer</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <ol class="step-list">
+                    <li><span class="step-num">1</span><span>Nome da conta VTEX</span></li>
+                    <li><span class="step-num">2</span><span>AppKey e AppToken com permissão de catálogo, checkout e OMS</span></li>
+                    <li><span class="step-num">3</span><span>Canal de venda padrão</span></li>
+                    <li><span class="step-num">4</span><span>Identificador do PIX e dos demais meios de pagamento usados</span></li>
+                    <li><span class="step-num">5</span><span>Tipo da loja: IO ou CMS</span></li>
+                  </ol>
+                  <div class="callout warning">
+                    <strong>Do lado da VTEX</strong>
+                    O aviso de mudança de status do pedido é registrado automaticamente na primeira configuração. O aviso de carrinho abandonado precisa ser apontado manualmente no admin da VTEX.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage open" id="pb-vtexdoc-limites">
+              <button class="stage-head">
+                <span class="num">13</span>
+                <h3>Limites conhecidos</h3>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <div class="stage-body">
+                <div class="stage-body-inner">
+                  <table class="pb-table">
+                    <tr><th>Área</th><th>Limite</th></tr>
+                    <tr><td><b>Busca</b></td><td>Sugestões de busca e termos mais buscados só existem em lojas no modo IO.</td></tr>
+                    <tr><td><b>Pagamento</b></td><td>O crédito da loja não oferece condições com juros — só as parcelas sem juros entram no fluxo.</td></tr>
+                    <tr><td><b>Disponibilidade</b></td><td>Não há catálogo em cache do lado da plataforma. Se a VTEX cai, o fluxo de compra cai junto.</td></tr>
+                    <tr><td><b>B2B</b></td><td>Depende do módulo B2B contratado e ativo na conta VTEX do cliente.</td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <p class="pb-end">Fim da documentação técnica — Integração VTEX.</p>
           </div>
         </div>
         <div class="nested-panel" data-nested-panel="shopify">

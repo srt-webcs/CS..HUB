@@ -141,6 +141,29 @@
 .ev-mod.past{opacity:.5}
 @media (max-width:980px){.ev-top,.ev-trails{grid-template-columns:1fr}}
 @media (max-width:640px){.ev-cal{padding:14px}.ev-weekdays,.ev-grid{gap:3px}.ev-day{font-size:12.5px;aspect-ratio:1}.ev-day.has .ev-tag{display:none}}
+.search{position:relative}
+.search:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft)}
+.srch-kbd{flex:none;font-family:inherit;font-size:11px;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);border-radius:6px;padding:1px 6px;background:var(--bg)}
+.search:focus-within .srch-kbd{display:none}
+.srch-pop{position:absolute;top:calc(100% + 8px);right:0;width:min(540px,calc(100vw - 32px));max-height:min(70vh,560px);overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);box-shadow:0 18px 48px -12px rgba(2,5,25,.28);padding:6px;z-index:60;text-align:left}
+.srch-pop[hidden]{display:none}
+.srch-count{font-size:11.5px;color:var(--ink-soft);padding:8px 10px 6px;font-weight:600}
+.srch-item{display:block;width:100%;text-align:left;background:none;border:none;border-radius:10px;padding:10px 12px;font:inherit;cursor:pointer;color:var(--ink)}
+.srch-item:hover,.srch-item.on{background:var(--brand-soft)}
+.srch-path{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--brand);margin-bottom:3px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.srch-type{flex:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 7px}
+.srch-path span:last-child{overflow:hidden;text-overflow:ellipsis}
+.srch-title{display:block;font-size:13.5px;font-weight:600;line-height:1.35}
+.srch-snip{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.srch-pop mark{background:#FFE58A;color:inherit;border-radius:3px;padding:0 1px}
+.srch-empty{padding:22px 14px;text-align:center;font-size:13px;color:var(--ink-soft)}
+.srch-empty b{color:var(--ink)}
+.srch-hint{display:flex;gap:14px;justify-content:flex-end;padding:8px 10px 4px;border-top:1px solid var(--line);margin-top:4px;font-size:11px;color:var(--ink-soft)}
+.srch-hint kbd{font-family:inherit;font-size:10.5px;border:1px solid var(--line);border-radius:5px;padding:0 5px;background:var(--bg)}
+.srch-flash{animation:srchFlash 2.4s ease}
+@keyframes srchFlash{0%,35%{box-shadow:0 0 0 4px #FFE58A;background-color:rgba(255,229,138,.35)}100%{box-shadow:0 0 0 4px rgba(255,229,138,0);background-color:transparent}}
+::highlight(srch){background-color:#FFE58A;color:inherit}
+@media (max-width:760px){.srch-kbd,.srch-hint{display:none}}
 </style>
 </head>
 <body>
@@ -199,7 +222,7 @@ FAQ
 </div>
 <div class="search">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-<input type="text" placeholder="Buscar no ambiente...">
+<input type="text" placeholder="Buscar no ambiente..." id="srchInput" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="srchPop" aria-autocomplete="list"><kbd class="srch-kbd" aria-hidden="true">/</kbd><div class="srch-pop" id="srchPop" role="listbox" hidden></div>
 </div>
 </header>
 <section class="panel active" id="formacoes">
@@ -329,7 +352,7 @@ FAQ
 </div>
 <div class="sub-panel" data-sub-panel="soft-cs">
 <div class="updates-cal">
-<script type="application/json" class="updates-data">[{"date": "2026-09-09", "title": "Envio de template com anexo na integração WPP Suri", "desc": "Agora é possível enviar templates com anexo pela integração de WhatsApp da Suri."}, {"date": "2026-09-09", "title": "Clique no título do chamado agora abre o chamado", "desc": "Ao clicar no título do chamado, o sistema abre o chamado normalmente, em vez de entrar no modo de edição do título."}, {"date": "2026-09-09", "title": "Scroll na lista de e-mails para envio", "desc": "A lista de e-mails para envio agora conta com scroll, eliminando a necessidade de dar zoom-out para visualizar todos os itens."}, {"date": "2026-09-09", "title": "Novo status de ticket: Cancelado", "desc": "Adicionado o status “Cancelado” para tickets, permitindo identificar chamados encerrados sem resolução."}]</script>
+<script type="application/json" class="updates-data">[{"date": "2026-09-09", "title": "Envio de template com anexo na integração WPP Suri", "desc": "Agora é possível enviar templates com anexo pela integração de WhatsApp da Suri."}, {"date": "2026-09-09", "title": "Clique no título do chamado agora abre o chamado", "desc": "Ao clicar no título do chamado, o sistema abre o chamado normalmente, em vez de entrar no modo de edição do título."}, {"date": "2026-09-09", "title": "Scroll na lista de e-mails para envio", "desc": "A lista de e-mails para envio agora conta com scroll, eliminando a necessidade de dar zoom-out para visualizar todos os itens."}, {"date": "2026-09-09", "title": "Novo status de ticket: Cancelado", "desc": "Adicionado o status “Cancelado” para tickets, permitindo identificar chamados encerrados sem resolução."}, {"date": "2026-10-14", "title": "Explicação do pulso atual visível no cliente", "desc": "Ao abrir o cliente, a explicação registrada no último pulso salvo passa a aparecer junto ao pulso atual, sem precisar abrir o histórico, dando contexto imediato sobre a saúde do cliente para quem chega na conta."}, {"date": "2026-10-14", "title": "Visualizar anexo sem baixar", "desc": "Agora é possível pré-visualizar anexos (PDF, imagens e documentos) direto na SoftCS, mantendo o download como opção, o que agiliza a consulta e evita acumular arquivos no computador."}, {"date": "2026-10-14", "title": "Busca de cliente por CNPJ", "desc": "Além do nome, agora é possível buscar o cliente pelo CNPJ, reduzindo buscas sem resultado."}, {"date": "2026-10-14", "title": "Deixar de seguir um cliente", "desc": "CSMs e ISMs agora contam com um sininho no cliente para deixar de receber notificações por e-mail sobre ele, e voltar a seguir quando quiser, mantendo a caixa de entrada focada nos clientes que realmente estão sob acompanhamento."}]</script>
 <div class="updates-cal-calendar">
 <div class="cal-head">
 <button type="button" data-dir="-1" aria-label="Mês anterior">&lsaquo;</button>
@@ -3452,6 +3475,139 @@ var th='';['ia','shop'].forEach(function(t){var list=sorted.filter(function(e){r
 document.getElementById('evTrails').innerHTML=th;
 document.querySelectorAll('.ev-mod').forEach(function(m){m.addEventListener('click',function(){select(m.dataset.date);document.getElementById('evDetail').scrollIntoView({behavior:'smooth',block:'nearest'})})});
 render();showDetail();markList();
+})();
+</script>
+<script>
+(function(){
+var input=document.getElementById('srchInput'),pop=document.getElementById('srchPop');
+if(!input||!pop)return;
+var MESES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+var index=null,results=[],cur=-1,timer=null,lastQ='';
+function norm(t){var o='';for(var i=0;i<t.length;i++){var c=t[i],n=c.normalize('NFD')[0];o+=(n||c).toLowerCase()[0]||' '}return o}
+function clean(t){return (t||'').replace(/\s+/g,' ').trim()}
+function esc(t){return t.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function txt(el){return clean(el?el.textContent:'')}
+function htmlText(h){var d=document.createElement('div');d.innerHTML=h;d.querySelectorAll('script,style').forEach(function(x){x.remove()});return clean(d.textContent)}
+function label(sel){var b=document.querySelector(sel);return b?txt(b):''}
+function pathOf(el){
+  var out=[],panel=el.closest('.panel');if(!panel)return out;
+  out.push(label('.tab-btn[data-tab="'+panel.id+'"]'));
+  var sp=el.closest('.sub-panel');if(sp&&panel.contains(sp)){var l=label('#'+panel.id+' .subnav[data-parent="'+panel.id+'"] .sub-btn[data-sub="'+sp.dataset.subPanel+'"]');if(l)out.push(l)}
+  var np=el.closest('.nested-panel');if(np&&sp&&sp.contains(np)){var nb=sp.querySelector('.subnav-nested .sub-btn[data-sub="'+np.dataset.nestedPanel+'"]');if(nb)out.push(txt(nb))}
+  var ip=el.closest('.inner-panel');if(ip&&np&&np.contains(ip)){var ib=np.querySelector('.subnav-inner .sub-btn[data-inner="'+ip.dataset.innerPanel+'"]');if(ib)out.push(txt(ib))}
+  return out}
+function add(o){o.tN=norm(o.title);o.bN=norm(o.body);o.pN=norm(o.path.join(' '));index.push(o)}
+function build(){
+  index=[];
+  document.querySelectorAll('.tab-btn[data-tab]').forEach(function(b){var p=document.getElementById(b.dataset.tab);if(p)add({type:'Aba',title:txt(b),body:'',path:[],el:p,kind:'section'})});
+  document.querySelectorAll('.subnav[data-parent] .sub-btn[data-sub]').forEach(function(b){var par=document.getElementById(b.closest('.subnav').dataset.parent);var sp=par&&par.querySelector('[data-sub-panel="'+b.dataset.sub+'"]');if(sp)add({type:'Seção',title:txt(b),body:'',path:pathOf(par),el:sp,kind:'section'})});
+  document.querySelectorAll('.subnav-nested .sub-btn[data-sub]').forEach(function(b){var sc=b.closest('.sub-panel'),np=sc&&sc.querySelector('[data-nested-panel="'+b.dataset.sub+'"]');if(np)add({type:'Seção',title:txt(b),body:'',path:pathOf(sc),el:np,kind:'section'})});
+  document.querySelectorAll('.subnav-inner .sub-btn[data-inner]').forEach(function(b){var sc=b.closest('.nested-panel'),ip=sc&&sc.querySelector('[data-inner-panel="'+b.dataset.inner+'"]');if(ip)add({type:'Seção',title:txt(b),body:'',path:pathOf(sc),el:ip,kind:'section'})});
+  var units=[['.training-item','Treinamento','h3'],['.levelup-cta','Trilha','strong'],['.ev-mod','Evento','.ev-mod-info span'],['.ev-trail','Trilha','.ev-trail-head strong'],['.faq-item','FAQ','.faq-q'],['.pb-header','Playbook','h2'],['.stage','Etapa','.stage-head h3'],['.gp-ch','Guia','h2'],['.policy-item','Política','h3'],['.card','Card','h3']];
+  var seen=new Set();
+  units.forEach(function(u){document.querySelectorAll(u[0]).forEach(function(el){
+    if(seen.has(el)||el.closest('.updates-cal')||el.closest('.srch-pop'))return;
+    if(u[0]==='.card'&&(el.querySelector('.training-item,.update-item,.faq-item,.stage')||el.closest('.stage')))return;
+    if(u[0]==='.ev-trail'){seen.add(el);add({type:u[1],title:txt(el.querySelector(u[2])),body:txt(el.querySelector('.ev-trail-head span')),path:pathOf(el),el:el});return}
+    seen.add(el);var t=el.querySelector(u[2]);var title=txt(t);var body=txt(el);
+    if(title&&body.indexOf(title)===0)body=body.slice(title.length).trim();
+    if(u[0]==='.stage'){var ph=el.closest('.inner-panel');var h=ph&&ph.querySelector('.pb-header h2');var pt=pathOf(el);if(h)pt=pt.concat([txt(h)]);add({type:u[1],title:title,body:body,path:pt,el:el});return}
+    if(u[0]==='.ev-mod'){var d=el.querySelector('.ev-mod-date');title=txt(el.querySelector('.ev-mod-info small'))+' · '+title;body=txt(d)+' '+txt(el.querySelector('.ev-mod-time'))+' '+txt(el.closest('.ev-trail').querySelector('.ev-trail-head strong'))}
+    add({type:u[1],title:title||body.slice(0,80),body:body,path:pathOf(el),el:el});
+  })});
+  document.querySelectorAll('.callout').forEach(function(el){if(el.closest('.stage,.gp-ch,.updates-cal'))return;var st=el.querySelector('strong');add({type:'Aviso',title:txt(st)||'Aviso',body:txt(el).replace(txt(st),'').trim(),path:pathOf(el),el:el})});
+  var COVER='.training-item,.levelup-cta,.ev-mod,.ev-trail,.faq-item,.pb-header,.stage,.gp-ch,.policy-item,.card,.callout,.updates-cal,.subnav,.subnav-nested,.subnav-inner,script,style,.ev-cal,.ev-detail,.gp-hero,.gp-intro,.gp-credit,.empty-sub,.pb-meta,.toc-list,.pb-end,.srch-pop';
+  var loose=new Map();
+  document.querySelectorAll('.panel').forEach(function(pn){var tw=document.createTreeWalker(pn,NodeFilter.SHOW_TEXT),nd;
+    while((nd=tw.nextNode())){var t=nd.nodeValue.trim();if(t.length<2)continue;var pe=nd.parentElement;if(pe.closest(COVER))continue;
+      var box=pe.closest('.inner-panel')||pe.closest('.nested-panel')||pe.closest('.sub-panel')||pn;if(!loose.has(box))loose.set(box,[]);loose.get(box).push(t)}});
+  loose.forEach(function(arr,box){var pt=pathOf(box);add({type:'Conteúdo',title:pt[pt.length-1]||'Conteúdo',body:clean(arr.join(' ')),path:pt.slice(0,-1),el:box})});
+  document.querySelectorAll('.updates-cal').forEach(function(root){
+    var data=[];try{data=JSON.parse(root.querySelector('.updates-data').textContent)}catch(e){}
+    var pt=pathOf(root);
+    data.forEach(function(u){var p=u.date.split('-');add({type:'Atualização',title:htmlText(u.title),body:htmlText(u.desc||''),path:pt.concat([(+p[2])+' de '+MESES[p[1]-1]+' de '+p[0]]),el:root,kind:'update',date:u.date,rawTitle:htmlText(u.title)})})});
+}
+function words(q){return norm(q).split(/\s+/).filter(Boolean)}
+function search(q){
+  if(!index)build();var ws=words(q);if(!ws.length)return[];var ph=norm(clean(q));var out=[];
+  index.forEach(function(o){var sc=0;for(var i=0;i<ws.length;i++){var w=ws[i];if(o.tN.indexOf(w)>-1)sc+=10;else if(o.bN.indexOf(w)>-1)sc+=2;else if(o.pN.indexOf(w)>-1)sc+=1;else return}
+    if(o.tN.indexOf(ph)>-1)sc+=12;if(o.tN.indexOf(ph)===0)sc+=6;if(o.tN===ph)sc+=10;if(o.bN.indexOf(ph)>-1)sc+=3;if(o.kind==='section')sc+=2;
+    out.push({o:o,s:sc})});
+  out.sort(function(a,b){return b.s-a.s});return out.map(function(x){return x.o})}
+function mark(t,ws){var n=norm(t),r=[];ws.forEach(function(w){var i=0;while((i=n.indexOf(w,i))>-1){r.push([i,i+w.length]);i+=w.length}});
+  if(!r.length)return esc(t);r.sort(function(a,b){return a[0]-b[0]});var m=[];r.forEach(function(x){var l=m[m.length-1];if(l&&x[0]<=l[1])l[1]=Math.max(l[1],x[1]);else m.push(x.slice())});
+  var o='',p=0;m.forEach(function(x){o+=esc(t.slice(p,x[0]))+'<mark>'+esc(t.slice(x[0],x[1]))+'</mark>';p=x[1]});return o+esc(t.slice(p))}
+function snippet(o,ws){var b=o.body;if(!b)return'';var n=o.bN,pos=-1;for(var i=0;i<ws.length;i++){pos=n.indexOf(ws[i]);if(pos>-1)break}
+  if(pos<0)return b.length>150?b.slice(0,150)+'…':b;var st=Math.max(0,pos-50),en=Math.min(b.length,pos+110);
+  if(st>0){var sp=b.indexOf(' ',st);if(sp>-1&&sp<pos)st=sp+1}return (st>0?'…':'')+b.slice(st,en)+(en<b.length?'…':'')}
+function render(q){
+  var ws=words(q);results=search(q);cur=results.length?0:-1;
+  if(!ws.length){close();return}
+  var h='';
+  if(!results.length){h='<div class="srch-empty">Nenhum resultado para <b>“'+esc(clean(q))+'”</b>.<br>Tente outra palavra ou um termo mais curto.</div>'}
+  else{var shown=results.slice(0,40);h='<div class="srch-count">'+results.length+(results.length===1?' resultado':' resultados')+(results.length>40?' · mostrando os 40 mais relevantes':'')+'</div>';
+    shown.forEach(function(o,i){var sn=o.kind==='section'?'':snippet(o,ws);
+      h+='<button type="button" class="srch-item'+(i===0?' on':'')+'" role="option" data-i="'+i+'"><span class="srch-path"><span class="srch-type">'+o.type+'</span><span>'+esc(o.path.join(' › '))+'</span></span><span class="srch-title">'+mark(o.title,ws)+'</span>'+(sn?'<span class="srch-snip">'+mark(sn,ws)+'</span>':'')+'</button>'})}
+  h+='<div class="srch-hint"><span><kbd>↑</kbd> <kbd>↓</kbd> navegar</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> fechar</span></div>';
+  pop.innerHTML=h;pop.hidden=false;input.setAttribute('aria-expanded','true');
+}
+function close(){pop.hidden=true;input.setAttribute('aria-expanded','false')}
+function setCur(i){var items=pop.querySelectorAll('.srch-item');if(!items.length)return;cur=(i+items.length)%items.length;items.forEach(function(x,k){x.classList.toggle('on',k===cur)});items[cur].scrollIntoView({block:'nearest'})}
+function clickIf(btn){if(btn&&!btn.classList.contains('active'))btn.click()}
+function reveal(el){
+  var panel=el.closest('.panel');if(!panel)return;
+  clickIf(document.querySelector('.tab-btn[data-tab="'+panel.id+'"]'));
+  var sp=el.closest('.sub-panel');if(sp&&panel.contains(sp))clickIf(panel.querySelector('.subnav[data-parent="'+panel.id+'"] .sub-btn[data-sub="'+sp.dataset.subPanel+'"]'));
+  var np=el.closest('.nested-panel');if(np&&sp)clickIf(sp.querySelector('.subnav-nested .sub-btn[data-sub="'+np.dataset.nestedPanel+'"]'));
+  var ip=el.closest('.inner-panel');if(ip&&np)clickIf(np.querySelector('.subnav-inner .sub-btn[data-inner="'+ip.dataset.innerPanel+'"]'));
+}
+function openAncestors(el){
+  var st=el.closest('.stage');if(st&&!st.classList.contains('open')){var hd=st.querySelector('.stage-head');if(hd)hd.click()}
+  var fq=el.closest('.faq-item');if(fq&&!fq.classList.contains('open')){var q=fq.querySelector('.faq-q');if(q)q.click()}
+}
+function deepest(unit,ws){
+  var best=null;unit.querySelectorAll('p,li,h2,h3,h4,pre,td,figcaption,.spec-item,.faq-q,.faq-a-inner,.callout,.gp-callout,.ev-mod,.update-item').forEach(function(e){if(best)return;var n=norm(e.textContent);if(ws.every(function(w){return n.indexOf(w)>-1}))best=e});
+  if(!best)unit.querySelectorAll('p,li,h2,h3,h4,pre,td,figcaption,.faq-a-inner').forEach(function(e){if(best)return;var n=norm(e.textContent);if(n.indexOf(ws[0])>-1)best=e});
+  return best||unit}
+function paint(scope,ws){
+  if(!(window.CSS&&CSS.highlights&&window.Highlight))return;CSS.highlights.delete('srch');
+  var ranges=[],tw=document.createTreeWalker(scope,NodeFilter.SHOW_TEXT),nd;
+  while((nd=tw.nextNode())){var n=norm(nd.nodeValue);ws.forEach(function(w){var i=0;while((i=n.indexOf(w,i))>-1){var r=new Range();r.setStart(nd,i);r.setEnd(nd,i+w.length);ranges.push(r);i+=w.length}})}
+  if(ranges.length)CSS.highlights.set('srch',new Highlight(...ranges));
+}
+function flash(t){t.classList.remove('srch-flash');void t.offsetWidth;t.classList.add('srch-flash');setTimeout(function(){t.classList.remove('srch-flash')},2500)}
+function selectUpdateDate(root,date){
+  var p=date.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];var lab=root.querySelector('.cal-month-label');
+  for(var k=0;k<60;k++){var t=norm(lab.textContent),ly=parseInt((t.match(/\d{4}/)||[0])[0],10),lm=-1;MESES.forEach(function(mm,ix){if(t.indexOf(norm(mm))>-1)lm=ix});
+    if(ly===y&&lm===m)break;var dir=(ly*12+lm)<(y*12+m)?'1':'-1';root.querySelector('.cal-head [data-dir="'+dir+'"]').click()}
+  var cells=root.querySelectorAll('.cal-day.has-update');for(var i=0;i<cells.length;i++){if(cells[i].textContent.trim()===String(d)){if(!cells[i].classList.contains('selected'))cells[i].click();break}}
+}
+function go(o){
+  var ws=words(input.value);close();input.blur();
+  reveal(o.el);
+  requestAnimationFrame(function(){
+    var target=o.el,scope=o.el;
+    if(o.kind==='update'){selectUpdateDate(o.el,o.date);var list=o.el.querySelector('.updates-cal-list');var tn=norm(o.rawTitle);var item=null;list.querySelectorAll('.update-item').forEach(function(u){if(!item&&norm(clean(u.querySelector('h3')?u.querySelector('h3').textContent:'')).indexOf(tn)>-1)item=u});scope=item||list;target=deepest(scope,ws)}
+    else if(o.kind==='section'){window.scrollTo({top:0,behavior:'smooth'});return}
+    else if(o.el.classList.contains('ev-mod')){o.el.click();scope=document.getElementById('evDetail')||o.el;target=scope}
+    else{openAncestors(o.el);target=deepest(o.el,ws);openAncestors(target)}
+    setTimeout(function(){paint(scope,ws);target.scrollIntoView({behavior:'smooth',block:'center'});flash(target)},o.kind==='update'?60:280);
+  });
+}
+input.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(function(){lastQ=input.value;render(input.value)},110)});
+input.addEventListener('focus',function(){if(!index)build();if(clean(input.value))render(input.value)});
+input.addEventListener('keydown',function(e){
+  if(e.key==='ArrowDown'){e.preventDefault();if(pop.hidden)render(input.value);else setCur(cur+1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();setCur(cur-1)}
+  else if(e.key==='Enter'){e.preventDefault();if(pop.hidden)render(input.value);else if(cur>-1&&results[cur])go(results[cur])}
+  else if(e.key==='Escape'){if(!pop.hidden)close();else{input.value='';input.blur();if(window.CSS&&CSS.highlights)CSS.highlights.delete('srch')}}
+});
+pop.addEventListener('mousedown',function(e){e.preventDefault()});
+pop.addEventListener('click',function(e){var b=e.target.closest('.srch-item');if(b)go(results[+b.dataset.i])});
+pop.addEventListener('mousemove',function(e){var b=e.target.closest('.srch-item');if(b&&+b.dataset.i!==cur)setCur(+b.dataset.i)});
+document.addEventListener('click',function(e){if(!e.target.closest('.search'))close()});
+document.addEventListener('keydown',function(e){var tag=(document.activeElement&&document.activeElement.tagName)||'';var typing=/INPUT|TEXTAREA|SELECT/.test(tag)||(document.activeElement&&document.activeElement.isContentEditable);
+  if((e.key==='/'&&!typing)||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k')){e.preventDefault();input.focus();input.select()}});
 })();
 </script>
 </body>
